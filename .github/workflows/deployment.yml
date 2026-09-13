@@ -1,36 +1,44 @@
 name: Deployment Project
-on: push
-jobs:
 
+on: push
+
+jobs:
   test:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: install NodeJS
+
+      - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: install dependencies
+
+      - name: Install dependencies
         run: npm ci
+
       - name: Run tests
         run: npm test
 
   deploy:
-    need: test
-    run-on: ubuntu-latest
+    needs: test
+    runs-on: ubuntu-latest
 
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: install NodeJS
+
+      - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: install dependencies
+
+      - name: Install dependencies
         run: npm ci
+
       - name: Build Project
-        run: npm run Build
-      - name: deploy
+        run: npm run build
+
+      - name: Deploy
         run: echo "Deploying ..."
